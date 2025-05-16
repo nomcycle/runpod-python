@@ -15,6 +15,7 @@ def generate_pod_deployment_mutation(
     support_public_ip: bool = True,
     start_ssh: bool = True,
     data_center_id: Optional[str] = None,
+    global_network: bool = True,
     country_code: Optional[str] = None,
     gpu_count: Optional[int] = None,
     volume_in_gb: Optional[int] = None,
@@ -43,6 +44,7 @@ def generate_pod_deployment_mutation(
         support_public_ip: Whether to support public IP
         start_ssh: Whether to start SSH service
         data_center_id: Data center ID
+        global_network: Whether to use global network
         country_code: Country code for pod location
         gpu_count: Number of GPUs (for GPU pods)
         volume_in_gb: Volume size in GB
@@ -105,6 +107,11 @@ def generate_pod_deployment_mutation(
         input_fields.append(f'dataCenterId: "{data_center_id}"')
     else:
         input_fields.append("dataCenterId: null")
+    
+    if global_network:
+        input_fields.append("globalNetwork: true")
+    else:
+        input_fields.append("globalNetwork: false")
 
     if country_code is not None:
         input_fields.append(f'countryCode: "{country_code}"')
